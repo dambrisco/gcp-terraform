@@ -8,7 +8,7 @@ variable "etcd-instance-type" {
   default = "n1-highcpu-4"
 }
 
-module "etcd-user-data" {
+module "etcd-coreos-user-data" {
   source   = "git::https://github.com/brandfolder/terraform-coreos-user-data.git?ref=master"
   etcd2_discovery = "${var.etcd_discovery_url}"
   fleet_metadata = "type=etcd"
@@ -45,7 +45,7 @@ resource "google_compute_instance" "etcd" {
   }
 
   metadata {
-    user-data = "${module.etcd-user-data.user-data}"
+    user-data = "${module.etcd-coreos-user-data.user-data}"
   }
 
   service_account {
