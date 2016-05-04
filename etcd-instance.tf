@@ -12,10 +12,10 @@ module "etcd-user-data" {
   source   = "github.com/brandfolder/terraform-coreos-user-data"
   etcd2_discovery = "${var.etcd_discovery_url}"
   fleet_metadata = "type=etcd"
-  fleet_public-ip = "var!private_ipv4"
-  fleet_engine-reconcile-interval = "10"
-  fleet_etcd-request-timeout = "5.0"
-  fleet_agent-ttl = "120s"
+  fleet_public_ip = "var!private_ipv4"
+  fleet_engine_reconcile_interval = "10"
+  fleet_etcd_request_timeout = "5.0"
+  fleet_agent_ttl = "120s"
 }
 
 resource "google_compute_instance" "etcd" {
