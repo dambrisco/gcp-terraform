@@ -11,8 +11,8 @@ variable "etcd-instance-type" {
 module "etcd-coreos-user-data" {
   source   = "git::https://github.com/brandfolder/terraform-coreos-user-data.git?ref=master"
   etcd2_discovery = "${var.etcd_discovery_url}"
-  etcd2_advertise-client-urls: "http://var!private_ipv4:2379,http://var!private_ipv4:4001"
-  etcd2_initial-advertise-peer-urls: "http://var!private_ipv4:2380,http://var!private_ipv4:7001"
+  etcd2_advertise-client-urls = "http://var!private_ipv4:2379,http://var!private_ipv4:4001"
+  etcd2_initial-advertise-peer-urls = "http://var!private_ipv4:2380,http://var!private_ipv4:7001"
   fleet_metadata = "type=etcd"
   fleet_public_ip = "var!private_ipv4"
   fleet_engine_reconcile_interval = "10"
