@@ -9,7 +9,7 @@ variable "etcd-instance-type" {
 }
 
 module "etcd-user-data" {
-  source   = "github.com/brandfolder/terraform-coreos-user-data"
+  source   = "git::https://github.com/brandfolder/terraform-coreos-user-data.git?ref=master"
   etcd2_discovery = "${var.etcd_discovery_url}"
   fleet_metadata = "type=etcd"
   fleet_public_ip = "var!private_ipv4"
