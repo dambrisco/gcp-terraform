@@ -19,8 +19,11 @@ resource "google_compute_instance_template" "k8s-worker" {
 
   instance_description = "Kubernetes worker"
   machine_type         = "${var.worker-instance-type}"
-  automatic_restart    = true
-  on_host_maintenance  = "MIGRATE"
+
+  scheduling {
+    automatic_restart    = true
+    on_host_maintenance  = "MIGRATE"
+  }
 
   disk {
     source_image = "${var.worker-image}"
