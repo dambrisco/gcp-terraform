@@ -22,7 +22,7 @@ resource "google_compute_instance_template" "k8s-worker" {
 
   scheduling {
     automatic_restart    = true
-    on_host_maintenance  = "MIGRATE"
+    on_host_maintenance  = "NONE"
   }
 
   disk {
