@@ -12,7 +12,7 @@ module "k8s-worker-coreos-user-data" {
 }
 
 resource "google_compute_instance_template" "k8s-worker" {
-  name        = "k8s-worker-v2"
+  name        = "k8s-worker"
   description = "Kubernetes Worker"
 
   tags = ["kubernetes", "worker"]
@@ -43,6 +43,7 @@ resource "google_compute_instance_template" "k8s-worker" {
 }
 
 resource "google_compute_instance_group_manager" "k8s-worker" {
+  depends_on  = ["google_compute_instance_template" "k8s-worker"]
   name        = "k8s-worker"
   description = "Kubernetes Workers"
 
