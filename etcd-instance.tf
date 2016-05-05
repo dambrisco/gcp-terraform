@@ -1,13 +1,3 @@
-variable "etcd_discovery_url" {}
-
-variable "etcd-count" {
-  default = 5
-}
-
-variable "etcd-instance-type" {
-  default = "n1-highcpu-4"
-}
-
 module "etcd-coreos-user-data" {
   source   = "git::https://github.com/brandfolder/terraform-coreos-user-data.git?ref=master"
   etcd2_discovery = "${var.etcd_discovery_url}"
@@ -16,7 +6,7 @@ module "etcd-coreos-user-data" {
   etcd2_listen-client-urls = "http://0.0.0.0:2379,http://0.0.0.0:4001"
   etcd2_listen-peer-urls = "http://var!private_ipv4:2380,http://var!private_ipv4:7001"
   flannel_interface = "var!private_ipv4"
-  fleet_metadata = "type=etcd"
+  fleet_metadata = "role=etcd"
   fleet_public_ip = "var!private_ipv4"
   fleet_engine_reconcile_interval = "10"
   fleet_etcd_request_timeout = "5.0"
@@ -27,12 +17,12 @@ resource "google_compute_instance" "etcd" {
   count        = "${var.etcd-count}"
   name         = "etcd-${count.index}"
   machine_type = "${var.etcd-instance-type}"
-  zone         = "${lookup(var.zones, "zone-${count.index % var.zone-count}")}"
+  zone         = "${var.zone}"
 
   tags = ["etcd"]
 
   disk {
-    image = "coreos-stable-899-17-0-v20160504"
+    image = "${var.etcd-image}"
   }
 
   // Local SSD disk
