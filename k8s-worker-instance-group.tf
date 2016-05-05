@@ -22,7 +22,7 @@ resource "google_compute_instance_template" "k8s-worker" {
 
   scheduling {
     automatic_restart    = true
-    on_host_maintenance  = "NONE"
+    on_host_maintenance  = "MIGRATE"
   }
 
   disk {
@@ -48,7 +48,7 @@ resource "google_compute_instance_group_manager" "k8s-worker" {
 
   base_instance_name = "k8s-worker"
   instance_template  = "${google_compute_instance_template.k8s-worker.self_link}"
-  update_strategy    = "MIGRATE"
+  update_strategy    = "NONE" // TODO: Change to ROLLING_UPDATE once supported
   zone               = "${var.zone}"
 
   target_size  = "${var.worker-count}"
