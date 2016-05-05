@@ -40,6 +40,8 @@ resource "google_compute_instance_template" "k8s-worker" {
   service_account {
     scopes = ["userinfo-email", "compute-ro", "storage-ro"]
   }
+
+  lifecycle { create_before_destroy = true }
 }
 
 resource "google_compute_instance_group_manager" "k8s-worker" {
