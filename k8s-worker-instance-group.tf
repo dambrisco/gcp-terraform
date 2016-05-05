@@ -48,5 +48,5 @@ resource "google_compute_instance_group_manager" "k8s-worker" {
   update_strategy    = "MIGRATE"
   zone               = "${var.zone}"
 
-  target_size  = "${var.worker_count}"
+  target_size  = "${var.worker-count}"
 }
