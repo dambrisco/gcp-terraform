@@ -11,8 +11,8 @@ module "k8s-worker-coreos-user-data" {
   fleet_agent_ttl = "120s"
 }
 
-resource "google_compute_instance_template" "k8s-worker" {
-  name        = "k8s-worker"
+resource "google_compute_instance_template" "k8s-worker-v2" {
+  name        = "k8s-worker-v2"
   description = "Kubernetes Worker"
 
   tags = ["kubernetes", "worker"]
@@ -48,7 +48,7 @@ resource "google_compute_instance_group_manager" "k8s-worker" {
   description = "Kubernetes Workers"
 
   base_instance_name = "k8s-worker"
-  instance_template  = "${google_compute_instance_template.k8s-worker.self_link}"
+  instance_template  = "${google_compute_instance_template.k8s-worker-v2.self_link}"
   update_strategy    = "NONE" // TODO: Change to ROLLING_UPDATE once supported
   zone               = "${var.zone}"
 
