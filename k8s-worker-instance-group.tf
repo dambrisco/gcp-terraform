@@ -12,7 +12,7 @@ module "k8s-worker-coreos-user-data" {
 }
 
 resource "google_compute_instance_template" "k8s-worker" {
-  name        = "k8s-worker"
+  name        = "k8s-worker-v2"
   description = "Kubernetes Worker"
 
   tags = ["kubernetes", "worker"]
@@ -40,8 +40,6 @@ resource "google_compute_instance_template" "k8s-worker" {
   service_account {
     scopes = ["userinfo-email", "compute-ro", "storage-ro"]
   }
-
-  lifecycle { create_before_destroy = true }
 }
 
 resource "google_compute_instance_group_manager" "k8s-worker" {
