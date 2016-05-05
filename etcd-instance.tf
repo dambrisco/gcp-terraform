@@ -15,6 +15,7 @@ module "etcd-coreos-user-data" {
   etcd2_initial-advertise-peer-urls = "http://var!private_ipv4:2380,http://var!private_ipv4:7001"
   etcd2_listen-client-urls = "http://0.0.0.0:2379,http://0.0.0.0:4001"
   etcd2_listen-peer-urls = "http://var!private_ipv4:2380,http://var!private_ipv4:7001"
+  flannel_interface = "var!private_ipv4"
   fleet_metadata = "type=etcd"
   fleet_public_ip = "var!private_ipv4"
   fleet_engine_reconcile_interval = "10"
