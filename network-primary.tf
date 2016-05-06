@@ -1,10 +1,11 @@
 resource "google_compute_network" "primary" {
-  name       = "primary"
+  name = "primary"
 }
 
-resource "google_compute_subnetwork" "primary-us-east1" {
-  name          = "primary-us-east1"
-  ip_cidr_range = "10.0.0.0/16"
+resource "google_compute_subnetwork" "primary" {
+  count         = "${length(split(",", var.zones))}"
+  name          = "primary-us-${element(split(",", var.zones), count.index % length(split(",", var.zones)))}"
+  ip_cidr_range = "10.0.${count.index}.0/16"
   network       = "${google_compute_network.primary.self_link}"
-  region        = "${replace(var.zone, "/-[a-z]$/", "")}"
+  region        = "${replace(element(split(",", var.zones), count.index % length(split(",", var.zones))), "/-[a-z]$/", "")}"
 }

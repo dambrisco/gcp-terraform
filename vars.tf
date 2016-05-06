@@ -26,6 +26,6 @@ variable "worker-instance-type" {
   default = "n1-highmem-4"
 }
 
-variable "zone" {
-  default = "us-central1"
+variable "zones" {
+  default = "us-east1-b"
 }

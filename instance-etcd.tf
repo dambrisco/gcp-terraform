@@ -16,7 +16,7 @@ module "etcd-coreos-user-data" {
 resource "google_compute_disk" "etcd" {
   count = "${var.etcd-count}"
   name  = "etcd-${count.index}"
-  zone  = "${var.zone}"
+  zone  = "${element(split(",", var.zones), count.index % length(split(",", var.zones)))}"
   image = "${var.etcd-image}"
   type  = "pd-ssd"
   size  = 100
@@ -25,7 +25,7 @@ resource "google_compute_disk" "etcd" {
 resource "google_compute_address" "etcd" {
   count  = "${var.etcd-count}"
   name   = "etcd-${count.index}"
-  region = "${replace(var.zone, "/-[a-z]$/", "")}"
+  region = "${replace(element(split(",", var.zones), count.index % length(split(",", var.zones))), "/-[a-z]$/", "")}"
 }
 
 resource "google_compute_instance" "etcd" {
@@ -33,12 +33,12 @@ resource "google_compute_instance" "etcd" {
   name         = "etcd-${count.index}"
   description  = "Etcd master"
   machine_type = "${var.etcd-instance-type}"
-  zone         = "${var.zone}"
+  zone         = "${element(split(",", var.zones), count.index % length(split(",", var.zones)))}"
 
   tags = ["etcd"]
 
   disk {
-    disk = "${element(google_compute_disk.etcd.*.name, count.index)}"
+    disk        = "${element(google_compute_disk.etcd.*.name, count.index)}"
     auto_delete = false
   }
 
@@ -48,7 +48,7 @@ resource "google_compute_instance" "etcd" {
   }
 
   network_interface {
-    subnetwork = "${google_compute_subnetwork.primary-us-east1.name}"
+    subnetwork = "${element(google_compute_subnetwork.primary.*.name, count.index % length(split(",", var.zones)))}"
 
     access_config {
       nat_ip = "${element(google_compute_address.etcd.*.address, count.index)}"

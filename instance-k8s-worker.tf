@@ -15,7 +15,7 @@ resource "google_compute_instance" "k8s-worker" {
   count       = "${var.worker-count}"
   name        = "k8s-worker-${count.index}"
   description = "Kubernetes Worker"
-  zone        = "${var.zone}"
+  zone        = "${element(split(",", var.zones), count.index % length(split(",", var.zones)))}"
 
   tags = ["kubernetes", "worker", "web"]
 
