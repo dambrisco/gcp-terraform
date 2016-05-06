@@ -49,7 +49,7 @@ resource "google_compute_instance" "etcd" {
     network = "${google_compute_network.primary.name}"
 
     access_config {
-      nat_ip = "${element(google_compute_global_address.etcd.*.address, count.index)}"
+      address = "${element(google_compute_global_address.etcd.*.address, count.index)}"
     }
   }
 
