@@ -32,7 +32,7 @@ resource "google_compute_instance" "etcd" {
   name         = "etcd-${count.index}"
   description  = "Etcd master"
   machine_type = "${var.etcd-instance-type}"
-  zone         = "${replace(var.zone, "/-\w$/", "")}"
+  zone         = "${replace(var.zone, "/-\\w$/", "")}"
 
   tags = ["etcd"]
 
