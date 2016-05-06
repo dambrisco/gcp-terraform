@@ -25,6 +25,7 @@ resource "google_compute_disk" "etcd" {
 resource "google_compute_address" "etcd" {
   count = "${var.etcd-count}"
   name  = "etcd-${count.index}"
+  region = "${replace(var.zone, "/-[a-z]$/", "")}"
 }
 
 resource "google_compute_instance" "etcd" {
@@ -32,7 +33,7 @@ resource "google_compute_instance" "etcd" {
   name         = "etcd-${count.index}"
   description  = "Etcd master"
   machine_type = "${var.etcd-instance-type}"
-  zone         = "${replace(var.zone, "/-\\w$/", "")}"
+  zone         = "${var.zone}"
 
   tags = ["etcd"]
 
