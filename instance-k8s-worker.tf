@@ -1,9 +1,9 @@
 resource "template_file" "k8s-worker-write_files" {
-  template = "${file("config/write_files/etcd.yml")}"
+  template = "${file("config/write_files/k8s-worker.yml")}"
 }
 
 resource "template_file" "k8s-worker-units" {
-  template = "${file("config/units/etcd.yml")}"
+  template = "${file("config/units/k8s-worker.yml")}"
 }
 
 module "k8s-worker-coreos-user-data" {

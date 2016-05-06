@@ -1,9 +1,9 @@
 resource "template_file" "bastion-write_files" {
-  template = "${file("config/write_files/etcd.yml")}"
+  template = "${file("config/write_files/bastion.yml")}"
 }
 
 resource "template_file" "bastion-units" {
-  template = "${file("config/units/etcd.yml")}"
+  template = "${file("config/units/bastion.yml")}"
 }
 
 module "bastion-coreos-user-data" {

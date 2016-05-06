@@ -1,3 +1,0 @@
-${file("config/write_files/shared/bash-functions.yml")}
-${file("config/write_files/shared/coredump.yml")}
-${file("config/write_files/shared/journald-settings.yml")}
