@@ -39,6 +39,7 @@ resource "google_compute_instance" "etcd" {
 
   disk {
     disk = "${element(google_compute_disk.etcd.*.name, count.index)}"
+    auto_delete = false
   }
 
   scheduling {
