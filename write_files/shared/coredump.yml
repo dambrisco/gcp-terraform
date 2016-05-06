@@ -1,0 +1,4 @@
+- path: /etc/systemd/coredump.conf
+  content: |
+    [Coredump]
+    Storage=none

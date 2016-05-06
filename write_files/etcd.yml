@@ -1,0 +1,1 @@
+${file("${path.module}/write_files/internal.yml")}

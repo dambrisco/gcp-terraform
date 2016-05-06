@@ -1,0 +1,4 @@
+- path: /etc/profile.d/fleet-options.sh
+  permissions: '0755'
+  content: |
+    export DEISCTL_UNITS=/var/lib/infrastructure/deis-units

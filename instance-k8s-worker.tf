@@ -1,3 +1,11 @@
+template_file "k8s-worker-write_files" {
+  template = "${file("${path.module}/write_files/etcd.yml")}"
+}
+
+template_file "k8s-worker-units" {
+  template = "${file("${path.module}/units/etcd.yml")}"
+}
+
 module "k8s-worker-coreos-user-data" {
   source                          = "git::https://github.com/brandfolder/terraform-coreos-user-data.git?ref=master"
   etcd2_discovery                 = "${var.etcd_discovery_url}"
@@ -9,6 +17,8 @@ module "k8s-worker-coreos-user-data" {
   fleet_engine_reconcile_interval = "10"
   fleet_etcd_request_timeout      = "5.0"
   fleet_agent_ttl                 = "120s"
+  write_files                     = "${template_file.k8s-worker-write_files.rendered}"
+  units                           = "${template_file.k8s-worker-units.rendered}"
 }
 
 resource "google_compute_instance" "k8s-worker" {
@@ -35,6 +45,7 @@ resource "google_compute_instance" "k8s-worker" {
 
   network_interface {
     subnetwork = "${element(google_compute_subnetwork.primary.*.name, count.index % length(split(",", var.zones)))}"
+
     access_config {
       // Ephemeral IP
     }

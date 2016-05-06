@@ -1,0 +1,19 @@
+# Github keys command
+- path: /opt/bin/fleet-key
+  permissions: 0755
+  owner: root:root
+  content: |
+    #!/bin/bash
+    etcdctl get authorized_keys/$1/rsa.pub
+- path: /etc/ssh/sshd_config
+  permissions: '0600'
+  owner: root:root
+  content: |
+    # Use most defaults for sshd configuration.
+    AuthorizedKeysFile .ssh/authorized_keys
+    AuthorizedKeysCommand /opt/bin/fleet-key
+    AuthorizedKeysCommandUser root
+    PasswordAuthentication no
+    UsePrivilegeSeparation sandbox
+    ClientAliveInterval 180
+    UseDNS no

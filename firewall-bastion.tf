@@ -8,5 +8,5 @@ resource "google_compute_firewall" "bastion" {
   }
 
   source_ranges = ["0.0.0.0/0"]
-  target_tags   = ["bastion"]
+  target_tags   = ["bastion", "etcd"]
 }

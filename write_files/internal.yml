@@ -1,0 +1,2 @@
+${file("${path.module}/write_files/shared.yml")}
+${file("${path.module}/write_files/internal/ssh-config.yml")}

@@ -1,0 +1,5 @@
+- path: /etc/systemd/journald.conf.d/settings.conf
+  content: |
+    [Journal]
+    SystemMaxUse=10G
+    MaxRetentionSec=2day

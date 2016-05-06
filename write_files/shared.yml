@@ -1,0 +1,3 @@
+${file("${path.module}/write_files/shared/bash-functions.yml")}
+${file("${path.module}/write_files/shared/coredump.yml")}
+${file("${path.module}/write_files/shared/journald-settings.yml")}

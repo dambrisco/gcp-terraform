@@ -1,3 +1,11 @@
+template_file "etcd-write_files" {
+  template = "${file("${path.module}/write_files/etcd.yml")}"
+}
+
+template_file "etcd-units" {
+  template = "${file("${path.module}/units/etcd.yml")}"
+}
+
 module "etcd-coreos-user-data" {
   source                            = "git::https://github.com/brandfolder/terraform-coreos-user-data.git?ref=master"
   etcd2_discovery                   = "${var.etcd_discovery_url}"
@@ -11,6 +19,8 @@ module "etcd-coreos-user-data" {
   fleet_engine_reconcile_interval   = "10"
   fleet_etcd_request_timeout        = "5.0"
   fleet_agent_ttl                   = "120s"
+  write_files                       = "${template_file.etcd-write_files.rendered}"
+  units                             = "${template_file.etcd-units.rendered}"
 }
 
 resource "google_compute_disk" "etcd" {

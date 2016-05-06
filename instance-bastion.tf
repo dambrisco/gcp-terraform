@@ -1,3 +1,11 @@
+template_file "bastion-write_files" {
+  template = "${file("${path.module}/write_files/etcd.yml")}"
+}
+
+template_file "bastion-units" {
+  template = "${file("${path.module}/units/etcd.yml")}"
+}
+
 module "bastion-coreos-user-data" {
   source                          = "git::https://github.com/brandfolder/terraform-coreos-user-data.git?ref=master"
   etcd2_discovery                 = "${var.etcd_discovery_url}"
@@ -9,6 +17,9 @@ module "bastion-coreos-user-data" {
   fleet_engine_reconcile_interval = "10"
   fleet_etcd_request_timeout      = "5.0"
   fleet_agent_ttl                 = "120s"
+  units                           = "${join("\n", [file("${path.module}/config/generate-ssh-key.yml")])}"
+  write_files                     = "${template_file.bastion-write_files.rendered}"
+  units                           = "${template_file.bastion-units.rendered}"
 }
 
 resource "google_compute_instance" "bastion" {
@@ -34,6 +45,7 @@ resource "google_compute_instance" "bastion" {
 
   network_interface {
     subnetwork = "${element(google_compute_subnetwork.primary.*.name, 1)}"
+
     access_config {
       // Ephemeral IP
     }

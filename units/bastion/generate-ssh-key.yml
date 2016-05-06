@@ -1,0 +1,28 @@
+-
+  name: generate-ssh-key.service
+  command: start
+  content: |
+    [Unit]
+    Description=Generate SSH key for use in connecting to other machines in fleet.
+    Requires=etcd2.service
+    After=etcd2.service
+
+    [Service]
+    Type=oneshot
+    ExecStartPre=/usr/bin/rm /etc/fleet_rsa
+    ExecStart=/usr/bin/ssh-keygen -f /etc/fleet_rsa -P ""
+    ExecStart=/usr/bin/sh "cat /etc/fleet_rsa.pub | etcdctl set /authorized_keys/core/rsa.pub"
+
+    [Install]
+    WantedBy=multi-user.target
+-
+  name: generate-ssh-key.timer
+  command: start
+  content: |
+    [Unit]
+    Description=Generate new keys on a weekly basis
+    After=generate-ssh-key.service
+    Requires=generate-ssh-key.service
+
+    [Timer]
+    OnCalendar=weekly
