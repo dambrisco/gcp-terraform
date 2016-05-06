@@ -34,6 +34,9 @@ resource "google_compute_instance" "bastion" {
 
   network_interface {
     subnetwork = "${element(google_compute_subnetwork.primary.*.name, 1)}"
+    access_config {
+      // Ephemeral IP
+    }
   }
 
   metadata {

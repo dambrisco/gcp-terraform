@@ -35,6 +35,9 @@ resource "google_compute_instance" "k8s-worker" {
 
   network_interface {
     subnetwork = "${element(google_compute_subnetwork.primary.*.name, count.index % length(split(",", var.zones)))}"
+    access_config {
+      // Ephemeral IP
+    }
   }
 
   metadata {
