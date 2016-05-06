@@ -1,1 +1,1 @@
-${file("${path.module}/write_files/internal.yml")}
+${file("config/write_files/internal.yml")}

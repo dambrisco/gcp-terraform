@@ -1,9 +1,9 @@
 resource "template_file" "etcd-write_files" {
-  template = "${file("${path.module}/write_files/etcd.yml")}"
+  template = "${file("config/write_files/etcd.yml")}"
 }
 
 resource "template_file" "etcd-units" {
-  template = "${file("${path.module}/units/etcd.yml")}"
+  template = "${file("config/units/etcd.yml")}"
 }
 
 module "etcd-coreos-user-data" {
