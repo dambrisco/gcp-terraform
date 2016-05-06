@@ -1,8 +1,8 @@
-template_file "k8s-worker-write_files" {
+resource "template_file" "k8s-worker-write_files" {
   template = "${file("${path.module}/write_files/etcd.yml")}"
 }
 
-template_file "k8s-worker-units" {
+resource "template_file" "k8s-worker-units" {
   template = "${file("${path.module}/units/etcd.yml")}"
 }
 

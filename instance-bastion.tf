@@ -1,8 +1,8 @@
-template_file "bastion-write_files" {
+resource "template_file" "bastion-write_files" {
   template = "${file("${path.module}/write_files/etcd.yml")}"
 }
 
-template_file "bastion-units" {
+resource "template_file" "bastion-units" {
   template = "${file("${path.module}/units/etcd.yml")}"
 }
 

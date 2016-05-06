@@ -1,8 +1,8 @@
-template_file "etcd-write_files" {
+resource "template_file" "etcd-write_files" {
   template = "${file("${path.module}/write_files/etcd.yml")}"
 }
 
-template_file "etcd-units" {
+resource "template_file" "etcd-units" {
   template = "${file("${path.module}/units/etcd.yml")}"
 }
 
