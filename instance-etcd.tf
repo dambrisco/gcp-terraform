@@ -22,7 +22,7 @@ resource "google_compute_disk" "etcd" {
   size  = 100
 }
 
-resource "google_compute_global_address" "etcd" {
+resource "google_compute_address" "etcd" {
   count = "${var.etcd-count}"
   name  = "etcd-${count.index}"
 }
@@ -49,7 +49,7 @@ resource "google_compute_instance" "etcd" {
     network = "${google_compute_network.primary.name}"
 
     access_config {
-      nat_ip = "${element(google_compute_global_address.etcd.*.address, count.index)}"
+      nat_ip = "${element(google_compute_address.etcd.*.address, count.index)}"
     }
   }
 
