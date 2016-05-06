@@ -37,7 +37,7 @@ resource "google_compute_instance" "etcd" {
   tags = ["etcd"]
 
   disk {
-    disk = "${element(google_compute_disk.etcd.*.self_link, count.index)}"
+    disk = "${element(google_compute_disk.etcd.*.name, count.index)}"
   }
 
   scheduling {
