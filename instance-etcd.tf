@@ -48,7 +48,7 @@ resource "google_compute_instance" "etcd" {
   }
 
   network_interface {
-    network = "${google_compute_network.primary.name}"
+    subnetwork = "${google_compute_subnetwork.primary-us-east1.name}"
 
     access_config {
       nat_ip = "${element(google_compute_address.etcd.*.address, count.index)}"

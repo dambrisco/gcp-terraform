@@ -10,5 +10,5 @@ resource "google_compute_firewall" "internal" {
     protocol = "tcp"
   }
 
-  source_ranges = ["${google_compute_network.primary.ipv4_range}"]
+  source_ranges = ["${google_compute_subnetwork.primary-us-east1.ipv4_range}"]
 }
