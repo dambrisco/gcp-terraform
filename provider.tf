@@ -1,3 +1,3 @@
 provider "google" {
-  region      = "${var.zone}"
+  region = "${var.zone}"
 }

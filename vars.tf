@@ -1,4 +1,5 @@
-variable "etcd_discovery_url" {}
+variable "etcd_discovery_url" {
+}
 
 variable "etcd-count" {
   default = 5
