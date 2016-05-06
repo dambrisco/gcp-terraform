@@ -11,4 +11,5 @@ resource "google_compute_firewall" "internal" {
   }
 
   source_ranges = ["${google_compute_subnetwork.primary.*.ip_cidr_range}"]
+  source_tags = ["bastion"]
 }
