@@ -14,7 +14,7 @@ module "bastion-coreos-user-data" {
 resource "google_compute_instance" "bastion" {
   name        = "bastion"
   description = "Bastion host"
-  zone        = "${element(var.zones, 1)}"
+  zone        = "${element(split(",", var.zones), 1)}"
 
   tags = ["bastion"]
 
