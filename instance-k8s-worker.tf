@@ -34,7 +34,7 @@ resource "google_compute_instance" "k8s-worker" {
   }
 
   network_interface {
-    network = "${google_compute_network.primary.name}"
+    subnetwork = "${element(google_compute_subnetwork.primary.*.name, count.index % length(split(",", var.zones)))}"
   }
 
   metadata {
