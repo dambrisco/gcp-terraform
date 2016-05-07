@@ -5,4 +5,4 @@
     /usr/bin/ssh-keygen -f $HOME/fleet_rsa -P "" > /dev/null
     cat $HOME/fleet_rsa.pub | etcdctl set /authorized_keys/$USER/rsa.pub > /dev/null
     eval `ssh-agent -s`
-    ssh-add $HOME/fleet_rsa > /dev/null
+    ssh-add $HOME/fleet_rsa &> /dev/null
