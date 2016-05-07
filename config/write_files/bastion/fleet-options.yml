@@ -1,4 +1,6 @@
 - path: /etc/profile.d/fleet-options.sh
   permissions: '0755'
   content: |
-    export DEISCTL_UNITS=/var/lib/infrastructure/deis-units
+    export FLEETCTL_SSH_USERNAME=core
+    ssh-agent -s
+    ssh-add /etc/fleet_rsa
