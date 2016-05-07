@@ -8,7 +8,6 @@
     After=etcd2.service
 
     [Service]
-    Type=oneshot
     ExecStartPre=/usr/bin/rm /etc/fleet_rsa
     ExecStart=/usr/bin/ssh-keygen -f /etc/fleet_rsa -P ""
     ExecStart=/usr/bin/sh "cat /etc/fleet_rsa.pub | etcdctl set /authorized_keys/core/rsa.pub"
