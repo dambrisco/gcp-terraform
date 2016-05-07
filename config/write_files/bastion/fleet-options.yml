@@ -2,5 +2,5 @@
   permissions: '0755'
   content: |
     export FLEETCTL_SSH_USERNAME=core
-    ssh-agent -s
+    eval `ssh-agent -s`
     ssh-add /etc/fleet_rsa
