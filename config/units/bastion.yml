@@ -1,1 +1,0 @@
-${file("config/units/bastion/generate-ssh-key.yml")}

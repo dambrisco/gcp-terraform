@@ -1,6 +1,8 @@
-- path: /etc/profile.d/fleet-options.sh
+- path: /etc/profile.d/fleet-ssh-config.sh
   permissions: '0755'
   content: |
-    export FLEETCTL_SSH_USERNAME=core
+    rm -f $HOME/fleet_rsa
+    /usr/bin/ssh-keygen -f $HOME/fleet_rsa -P "" > /dev/null ;\
+    cat $HOME/fleet_rsa.pub | etcdctl set /authorized_keys/$USER/rsa.pub
     eval `ssh-agent -s`
-    ssh-add /etc/fleet_rsa
+    ssh-add $HOME/fleet_rsa > /dev/null
