@@ -13,9 +13,7 @@
       /usr/bin/ssh-keygen -f /etc/fleet_rsa -P "" ;\
       cat /etc/fleet_rsa.pub | etcdctl set /authorized_keys/core/rsa.pub \
     '
-
-    [Install]
-    WantedBy=multi-user.target
+    
 -
   name: generate-ssh-key.timer
   command: start
