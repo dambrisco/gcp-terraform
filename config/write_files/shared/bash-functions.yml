@@ -11,7 +11,7 @@
     function elr() { if [ -z "$1" ] ; then etcdctl ls --recursive ; else etcdctl ls --recursive | grep "$1" ; fi }
     #-
     # Aliases
-    alias jc='journalctl'
+    alias jc='sudo journalctl'
     alias fl='fleetctl'
     alias ed='etcdctl'
     alias syc='sudo systemctl'
