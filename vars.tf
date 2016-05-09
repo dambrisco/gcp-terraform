@@ -41,3 +41,7 @@ variable "bastion-image" {
 variable "bastion-instance-type" {
   default = "n1-standard-1"
 }
+
+variable "firewall-whitelisted-ips" {
+  default = ""
+}
