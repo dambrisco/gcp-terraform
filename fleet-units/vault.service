@@ -20,6 +20,9 @@ ExecStart=/usr/bin/docker run \
   -p 8200:8200 \
   --cap-add IPC_LOCK \
   brandfolder/vault-coreos
+ExecStartPost=/usr/bin/wget curl https://releases.hashicorp.com/vault/0.5.2/vault_0.5.2_linux_amd64.zip
+ExecStartPost=/usr/bin/mkdir -p /opt/bin
+ExecStartPost=/usr/bin/unzip vault_0.5.2_linux_amd64.zip -d /opt/bin
 Restart=always
 RestartSec=5
 
