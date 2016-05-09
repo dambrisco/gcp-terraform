@@ -20,7 +20,7 @@ ExecStart=/usr/bin/docker run \
   -p 8200:8200 \
   --cap-add IPC_LOCK \
   brandfolder/vault-coreos
-ExecStartPost=/usr/bin/wget curl -sSL https://releases.hashicorp.com/vault/0.5.2/vault_0.5.2_linux_amd64.zip
+ExecStartPost=/usr/bin/wget -q https://releases.hashicorp.com/vault/0.5.2/vault_0.5.2_linux_amd64.zip
 ExecStartPost=/usr/bin/mkdir -p /opt/bin
 ExecStartPost=/usr/bin/unzip vault_0.5.2_linux_amd64.zip -d /opt/bin -o
 ExecStartPost=/usr/bin/sh -c "echo 'export VAULT_ADDR=http://127.0.0.1:8200' > /etc/profile.d/vault-addr.sh"
