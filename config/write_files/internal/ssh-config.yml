@@ -4,7 +4,7 @@
   owner: root:root
   content: |
     #!/bin/bash
-    for key in `etcdctl ls -p --recursive authorized_keys | grep -E "[^\/]$"` ; do etcdctl get $key | xargs echo -n  ; done
+    for key in `etcdctl ls -p --recursive authorized_keys | grep -E "[^\/]$"` ; do etcdctl get $key  ; done
 
 - path: /etc/ssh/sshd_config
   permissions: '0600'
