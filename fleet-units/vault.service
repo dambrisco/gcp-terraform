@@ -7,10 +7,9 @@ After=etcd2.service
 
 [Service]
 EnvironmentFile=/etc/environment
-ExecStartPre=-/usr/bin/docker rm -f %p
+ExecStartPre=-/usr/bin/sh "docker rm -f %p &> dev/null"
 ExecStartPre=/usr/bin/docker pull brandfolder/vault-coreos
 ExecStart=/usr/bin/docker run \
-  --rm \
   --name %p \
   -e SERVICE_NAME=vault \
   -e ETCD_ADDRESS="http://${COREOS_PRIVATE_IPV4}:2379" \
