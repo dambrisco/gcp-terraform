@@ -24,3 +24,4 @@ RestartSec=5
 
 [X-Fleet]
 Conflicts=%p@*.service
+Conflicts=disable-units.service
