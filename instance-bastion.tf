@@ -24,7 +24,7 @@ module "bastion-coreos-user-data" {
 resource "google_compute_instance" "bastion" {
   name        = "bastion"
   description = "Bastion host"
-  zone        = "${element(split(",", var.zones), 1)}"
+  zone        = "${element(split(",", var.zones), 0)}"
 
   tags = ["bastion"]
 
@@ -43,7 +43,7 @@ resource "google_compute_instance" "bastion" {
   }
 
   network_interface {
-    subnetwork = "${element(google_compute_subnetwork.primary.*.name, 1)}"
+    subnetwork = "${element(google_compute_subnetwork.primary.*.name, 0)}"
 
     access_config {
       // Ephemeral IP
