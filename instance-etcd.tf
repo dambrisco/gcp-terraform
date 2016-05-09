@@ -26,7 +26,7 @@ module "etcd-coreos-user-data" {
 
 resource "google_compute_disk" "etcd" {
   count = "${var.etcd-count}"
-  name  = "etcd-${count.index}"
+  name  = "${join("-", replace("${var.prefix}-etcd-${count.index}", "/^-/", ""))}"
   zone  = "${element(split(",", var.zones), count.index % length(split(",", var.zones)))}"
   image = "${var.etcd-image}"
   type  = "pd-ssd"
@@ -35,13 +35,13 @@ resource "google_compute_disk" "etcd" {
 
 resource "google_compute_address" "etcd" {
   count  = "${var.etcd-count}"
-  name   = "etcd-${count.index}"
+  name   = "${join("-", replace("${var.prefix}-etcd-${count.index}", "/^-/", ""))}"
   region = "${replace(element(split(",", var.zones), count.index % length(split(",", var.zones))), "/-[a-z]$/", "")}"
 }
 
 resource "google_compute_instance" "etcd" {
   count        = "${var.etcd-count}"
-  name         = "etcd-${count.index}"
+  name         = "${join("-", replace("${var.prefix}-etcd-${count.index}", "/^-/", ""))}"
   description  = "Etcd master"
   machine_type = "${var.etcd-instance-type}"
   zone         = "${element(split(",", var.zones), count.index % length(split(",", var.zones)))}"

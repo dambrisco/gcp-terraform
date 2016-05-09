@@ -1,3 +1,7 @@
+variable "prefix" {
+  default = ""
+}
+
 variable "etcd_discovery_url" {
   default = ""
 }

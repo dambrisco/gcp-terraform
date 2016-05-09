@@ -22,7 +22,7 @@ module "bastion-coreos-user-data" {
 }
 
 resource "google_compute_instance" "bastion" {
-  name        = "bastion"
+  name        = "${join("-", replace("${var.prefix}-bastion", "/^-/", ""))}"
   description = "Bastion host"
   zone        = "${element(split(",", var.zones), 0)}"
 
