@@ -1,0 +1,11 @@
+[Unit]
+Description=Etcd Tag
+
+[Service]
+ExecStart=/usr/bin/sh -c "while true ; do sleep 86400 ; done"
+Restart=Always
+RestartSec=5
+
+[X-Fleet]
+Global=true
+MachineMetadata=role=etcd
