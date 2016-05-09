@@ -23,5 +23,4 @@ Restart=always
 RestartSec=5
 
 [X-Fleet]
-Conflicts=%p@*.service
-Conflicts=prevent-units.service
+Global=true
