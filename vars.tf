@@ -42,6 +42,6 @@ variable "bastion-instance-type" {
   default = "n1-standard-1"
 }
 
-variable "firewall-whitelisted-ips" {
+variable "whitelisted-ips" {
   default = ""
 }
