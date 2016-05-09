@@ -1,0 +1,16 @@
+[Unit]
+Description=Sysdig Cloud Agent
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/bin/sh -c "docker rm -f %p 2> /dev/null"
+ExecStartPre=/bin/sh -c "docker pull sysdig/agent"
+ExecStart=/bin/sh -c "docker run --rm --name %p --privileged --net host -e ACCESS_KEY=`etcdctl get /sysdigcloud.com/key 2> /dev/null` -v /var/run/docker.sock:/host/var/run/docker.sock -v /dev:/host/dev -v /proc:/host/proc:ro -v /boot:/host/boot:ro sysdig/agent"
+ExecStop=/bin/sh -c "docker stop %p"
+RestartSec=5
+Restart=always
+
+[X-Fleet]
+Global=true
