@@ -12,7 +12,7 @@ resource "google_compute_firewall" "internal" {
 
   source_ranges = [
     "${google_compute_subnetwork.primary.*.ip_cidr_range}",
-    "${compact(split(",", replace(join(",", formatlist("%s/32", split(",", var.whitelisted-ips))), "/^\\/32$/")))}",
+    "${compact(split(",", replace(join(",", formatlist("%s/32", split(",", var.whitelisted-ips))), "/^\\/32$/", "")))}",
   ]
 
   source_tags = ["bastion"]
