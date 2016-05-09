@@ -1,5 +1,5 @@
 resource "google_compute_firewall" "internal" {
-  name    = "${join("-", replace("${var.prefix}-${google_compute_network.primary.name}-allow-internal", "/^-/", ""))}"
+  name    = "${replace("${var.prefix}-${google_compute_network.primary.name}-allow-internal", "/^-/", "")}"
   network = "${google_compute_network.primary.name}"
 
   allow {

@@ -1,5 +1,5 @@
 resource "google_compute_firewall" "kubernetes" {
-  name    = "${join("-", replace("${var.prefix}-${google_compute_network.primary.name}-kubernetes", "/^-/", ""))}"
+  name    = "${replace("${var.prefix}-${google_compute_network.primary.name}-kubernetes", "/^-/", "")}"
   network = "${google_compute_network.primary.name}"
 
   allow {

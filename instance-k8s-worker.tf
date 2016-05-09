@@ -23,7 +23,7 @@ module "k8s-worker-coreos-user-data" {
 
 resource "google_compute_instance" "k8s-worker" {
   count       = "${var.worker-count}"
-  name        = "${join("-", replace("${var.prefix}-k8s-worker-${count.index}", "/^-/", ""))}"
+  name        = "${replace("${var.prefix}-k8s-worker-${count.index}", "/^-/", "")}"
   description = "Kubernetes worker"
   zone        = "${element(split(",", var.zones), count.index % length(split(",", var.zones)))}"
 

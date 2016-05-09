@@ -1,5 +1,5 @@
 resource "google_compute_firewall" "bastion" {
-  name    = "${join("-", replace("${var.prefix}-${google_compute_network.primary.name}-allow-bastion-ssh", "/^-/", ""))}"
+  name    = "${replace("${var.prefix}-${google_compute_network.primary.name}-allow-bastion-ssh", "/^-/", "")}"
   network = "${google_compute_network.primary.name}"
 
   allow {
