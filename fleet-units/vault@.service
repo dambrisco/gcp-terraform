@@ -1,0 +1,26 @@
+[Unit]
+Description=Vault Service
+Requires=docker.service
+Requires=etcd2.service
+After=docker.service
+After=etcd2.service
+
+[Service]
+EnvironmentFile=/etc/environment
+ExecStartPre=-/usr/bin/docker rm -f %p
+ExecStartPre=/usr/bin/docker pull brandfolder/vault-coreos
+ExecStart=/usr/bin/docker run \
+  --rm \
+  --name %p \
+  -e SERVICE_NAME=vault \
+  -e ETCD_ADDRESS="http://${COREOS_PRIVATE_IPV4}:2379" \
+  -e VAULT_LISTEN="0.0.0.0:8200" \
+  -e VAULT_TLS_DISABLE=1 \
+  -p 8200:8200 \
+  --cap-add IPC_LOCK \
+  brandfolder/vault-coreos
+Restart=always
+RestartSec=5
+
+[X-Fleet]
+Conflicts=%p@*.service
