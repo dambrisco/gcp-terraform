@@ -16,6 +16,7 @@ ExecStart=/usr/bin/docker run \
   -e ETCD_ADVERTISE_ADDR="http://${COREOS_PRIVATE_IPV4}:8200" \
   -e VAULT_ADDRESS="0.0.0.0:8200" \
   -e VAULT_TLS_DISABLE=1 \
+  -e VAULT_LOG_LEVEL=trace \
   -p 8200:8200 \
   --cap-add IPC_LOCK \
   brandfolder/vault-coreos
