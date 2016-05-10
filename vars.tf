@@ -18,6 +18,18 @@ variable "etcd-instance-type" {
   default = "n1-highcpu-4"
 }
 
+variable "master-count" {
+  default = 5
+}
+
+variable "master-image" {
+  default = "coreos-stable-899-17-0-v20160504"
+}
+
+variable "master-instance-type" {
+  default = "n1-highmem-4"
+}
+
 variable "worker-count" {
   default = 5
 }

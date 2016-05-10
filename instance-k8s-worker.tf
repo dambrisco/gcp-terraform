@@ -12,7 +12,7 @@ module "k8s-worker-coreos-user-data" {
   etcd2_listen-client-urls        = "http://0.0.0.0:2379,http://0.0.0.0:4001"
   etcd2_proxy                     = "on"
   flannel_interface               = "var!private_ipv4"
-  fleet_metadata                  = "role=k8s-worker"
+  fleet_metadata                  = "role=kubernetes,type=worker,web=true"
   fleet_public_ip                 = "var!private_ipv4"
   fleet_engine_reconcile_interval = "10"
   fleet_etcd_request_timeout      = "5.0"
