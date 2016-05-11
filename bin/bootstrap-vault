@@ -20,11 +20,13 @@ read -n 1 -p "(y/n)? => " -r && echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
   # Mount Root and Generate Cert
+  vault unmount pki-root &> /dev/null || true
   cmd vault mount -path pki-root pki
   cmd vault mount-tune -max-lease-ttl=87600h pki-root
   cmd vault write -format=json pki-root/root/generate/exported common_name="kube-ca" ttl=87600h | tee >(jq -r .data.certificate > ca.pem) >(jq -r .data.issuing_ca > issuing_ca.pem) >(jq -r .data.private_key > ca-key.pem)
 
   # Mount Intermediate and set cert
+  vault unmount pki-intermediate &> /dev/null || true
   cmd  vault mount -path pki-intermediate pki
   cmd vault mount-tune -max-lease-ttl=87600h pki-intermediate
   cmd vault write -format=json pki-intermediate/intermediate/generate/exported common_name="kube-intermediate-ca" ip_sans="${COREOS_PRIVATE_IPV4}" ttl=87600h | tee >(jq -r .data.csr > kube-intermediate-ca.csr) >(jq -r .data.private_key > kube-intermediate-ca.pem)
