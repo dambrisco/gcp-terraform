@@ -28,7 +28,7 @@ resource "google_compute_disk" "etcd" {
   count = "${var.etcd-count}"
   name  = "${replace("${var.prefix}-etcd-${count.index}", "/^-/", "")}"
   zone  = "${element(split(",", var.zones), count.index % length(split(",", var.zones)))}"
-  image = "${coalesce(var.etcd-image, vars.default-image)}"
+  image = "${coalesce(var.etcd-image, var.default-image)}"
   type  = "pd-ssd"
   size  = 100
 
@@ -49,7 +49,7 @@ resource "google_compute_instance" "etcd" {
   count        = "${var.etcd-count}"
   name         = "${replace("${var.prefix}-etcd-${count.index}", "/^-/", "")}"
   description  = "Etcd master"
-  machine_type = "${coalesce(var.etcd-instance-type, vars.default-instance-type)}"
+  machine_type = "${coalesce(var.etcd-instance-type, var.default-instance-type)}"
   zone         = "${element(split(",", var.zones), count.index % length(split(",", var.zones)))}"
 
   tags = ["etcd"]

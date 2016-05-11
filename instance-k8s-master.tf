@@ -29,7 +29,7 @@ resource "google_compute_instance" "k8s-master" {
 
   tags = ["kubernetes", "master", "web"]
 
-  machine_type = "${coalesce(var.master-instance-type, vars.default-instance-type)}"
+  machine_type = "${coalesce(var.master-instance-type, var.default-instance-type)}"
 
   scheduling {
     automatic_restart   = true
@@ -40,7 +40,7 @@ resource "google_compute_instance" "k8s-master" {
     type        = "pd-ssd"
     auto_delete = true
     size        = 100
-    image       = "${coalesce(var.master-image, vars.default-image)}"
+    image       = "${coalesce(var.master-image, var.default-image)}"
   }
 
   network_interface {

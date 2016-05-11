@@ -28,7 +28,7 @@ resource "google_compute_instance" "bastion" {
 
   tags = ["bastion"]
 
-  machine_type = "${coalesce(var.bastion-instance-type, vars.default-instance-type)}"
+  machine_type = "${coalesce(var.bastion-instance-type, var.default-instance-type)}"
 
   scheduling {
     automatic_restart   = true
@@ -39,7 +39,7 @@ resource "google_compute_instance" "bastion" {
     type        = "pd-ssd"
     auto_delete = true
     size        = 50
-    image       = "${coalesce(var.bastion-image, vars.default-image)}"
+    image       = "${coalesce(var.bastion-image, var.default-image)}"
   }
 
   network_interface {

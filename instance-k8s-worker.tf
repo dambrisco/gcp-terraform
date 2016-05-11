@@ -29,7 +29,7 @@ resource "google_compute_instance" "k8s-worker" {
 
   tags = ["kubernetes", "worker", "web"]
 
-  machine_type = "${coalesce(var.worker-instance-type, vars.default-instance-type)}"
+  machine_type = "${coalesce(var.worker-instance-type, var.default-instance-type)}"
 
   scheduling {
     automatic_restart   = true
@@ -40,7 +40,7 @@ resource "google_compute_instance" "k8s-worker" {
     type        = "pd-ssd"
     auto_delete = true
     size        = 100
-    image       = "${coalesce(var.worker-image, vars.default-image)}"
+    image       = "${coalesce(var.worker-image, var.default-image)}"
   }
 
   network_interface {
