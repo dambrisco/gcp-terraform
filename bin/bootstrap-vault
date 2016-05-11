@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 source /etc/environment
 
 # Authorize and unseal
@@ -14,7 +15,7 @@ then
   # Mount Root and Generate Cert
   vault mount -path pki-root pki
   vault mount-tune -max-lease-ttl=87600h pki-root
-  vault write -format=json pki-root/root/generate/exported common_name="kube-ca" ttl=87600h | | tee >(jq -r .data.certificate > ca.pem) >(jq -r .data.issuing_ca > issuing_ca.pem) >(jq -r .data.private_key > ca-key.pem)
+  vault write -format=json pki-root/root/generate/exported common_name="kube-ca" ttl=87600h | tee >(jq -r .data.certificate > ca.pem) >(jq -r .data.issuing_ca > issuing_ca.pem) >(jq -r .data.private_key > ca-key.pem)
 
   # Mount Intermediate and set cert
   vault mount -path pki-intermediate pki
