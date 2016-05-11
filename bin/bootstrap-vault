@@ -1,15 +1,5 @@
 #!/usr/bin/env bash
 set -e
-source /etc/environment
-
-# Authorize and unseal
-VAULT_ADDR=http://127.0.0.1:8200
-certs_dir=/tmp/vault-generatated-certs
-
-vault auth
-until vault status &> /dev/null ; do vault unseal ; done
-
-mkdir --parents $certs_dir
 
 function cmd() {
   set -e
@@ -17,22 +7,31 @@ function cmd() {
   $@
 }
 
-echo "Do you want to generate certs?"
-echo "WARNING: If certs have already been generated this will break existing uses!"
+>&2 echo "Are you sure you want to generate certs?"
+>&2 printf "\e[0;93;31mWARNING:\e[0m\nIf certs have already been generated this will break anything using them!\n"
 read -n 1 -p "(y/n)? => " -r && echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
+  # Authorize and unseal
+  VAULT_ADDR=http://127.0.0.1:8200
+  certs_dir=/tmp/vault-generatated-certs
+
+  mkdir --parents $certs_dir
+  source /etc/environment
+  vault auth
+  until vault status &> /dev/null ; do vault unseal ; done
+
   # Mount Root and Generate Cert
   vault unmount pki-root &> /dev/null || true
   cmd vault mount -path pki-root pki
   cmd vault mount-tune -max-lease-ttl=87600h pki-root
-  cmd vault write -format=json pki-root/root/generate/exported common_name="kube-ca" ttl=87600h | tee >(jq -r .data.certificate > $certs_dir/ca.pem) >(jq -r .data.issuing_ca > $certs_dir/issuing_ca.pem) >(jq -r .data.private_key > $certs_dir/ca-key.pem)
+  cmd vault write -format=json pki-root/root/generate/internal common_name="kube-ca" ttl=87600h | tee >(jq -r .data.certificate > $certs_dir/ca.pem) >(jq -r .data.issuing_ca > $certs_dir/issuing_ca.pem) >(jq -r .data.private_key > $certs_dir/ca-key.pem)
 
   # Mount Intermediate and set cert
   vault unmount pki-intermediate &> /dev/null || true
   cmd  vault mount -path pki-intermediate pki
   cmd vault mount-tune -max-lease-ttl=87600h pki-intermediate
-  cmd vault write -format=json pki-intermediate/intermediate/generate/exported common_name="kube-intermediate-ca" ip_sans="${COREOS_PRIVATE_IPV4}" ttl=43800h | tee >(jq -r .data.csr > $certs_dir/kube-intermediate-ca.csr) >(jq -r .data.private_key > $certs_dir/kube-intermediate-ca.pem)
+  cmd vault write -format=json pki-intermediate/intermediate/generate/internal common_name="kube-intermediate-ca" ip_sans="${COREOS_PRIVATE_IPV4}" ttl=43800h | tee >(jq -r .data.csr > $certs_dir/kube-intermediate-ca.csr) >(jq -r .data.private_key > $certs_dir/kube-intermediate-ca.pem)
 
   # Sign the intermediate certificate and set it
   cmd vault write -format=json pki-root/root/sign-intermediate csr=@$certs_dir/kube-intermediate-ca.csr common_name="kube-intermediate-ca" ip_sans="${COREOS_PRIVATE_IPV4}" ttl=43800h | tee >(jq -r .data.certificate > $certs_dir/kube-intermediate-ca.cert) >(jq -r .data.issuing_ca > $certs_dir/kube-intermediate-ca_issuing_ca.pem)
@@ -42,14 +41,5 @@ then
   cmd vault write pki-intermediate/roles/kube-apiserver allow_any_name=true
   cmd vault write pki-intermediate/roles/kube-worker allow_any_name=true
 
-  echo "Do you want to cleanup the created directories on this machine?"
-  read -n 1 -p "(y/n)? => " -r && echo
-  echo
-  if [[ $REPLY =~ ^[Yy]$ ]]
-  then
-    rm -rf $certs_dir;
-  else
-    echo "this machine contains a copy of the keys, you may want to clean this up!"
-  fi
-
+  rm -rf $certs_dir;
 fi
