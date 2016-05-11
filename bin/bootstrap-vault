@@ -32,10 +32,10 @@ then
   vault unmount pki-intermediate &> /dev/null || true
   cmd  vault mount -path pki-intermediate pki
   cmd vault mount-tune -max-lease-ttl=87600h pki-intermediate
-  cmd vault write -format=json pki-intermediate/intermediate/generate/exported common_name="kube-intermediate-ca" ip_sans="${COREOS_PRIVATE_IPV4}" ttl=87600h | tee >(jq -r .data.csr > $certs_dir/kube-intermediate-ca.csr) >(jq -r .data.private_key > $certs_dir/kube-intermediate-ca.pem)
+  cmd vault write -format=json pki-intermediate/intermediate/generate/exported common_name="kube-intermediate-ca" ip_sans="${COREOS_PRIVATE_IPV4}" ttl=43800h | tee >(jq -r .data.csr > $certs_dir/kube-intermediate-ca.csr) >(jq -r .data.private_key > $certs_dir/kube-intermediate-ca.pem)
 
   # Sign the intermediate certificate and set it
-  cmd vault write -format=json pki-root/root/sign-intermediate csr=@$certs_dir/kube-intermediate-ca.csr ttl=8670h common_name="kube-intermediate-ca" ip_sans="${COREOS_PRIVATE_IPV4}" ttl=87600h | tee >(jq -r .data.certificate > $certs_dir/kube-intermediate-ca.cert) >(jq -r .data.issuing_ca > $certs_dir/kube-intermediate-ca_issuing_ca.pem)
+  cmd vault write -format=json pki-root/root/sign-intermediate csr=@$certs_dir/kube-intermediate-ca.csr ttl=8670h common_name="kube-intermediate-ca" ip_sans="${COREOS_PRIVATE_IPV4}" ttl=43800h | tee >(jq -r .data.certificate > $certs_dir/kube-intermediate-ca.cert) >(jq -r .data.issuing_ca > $certs_dir/kube-intermediate-ca_issuing_ca.pem)
   cmd vault write pki-intermediate/intermediate/set-signed certificate=@$certs_dir/kube-intermediate-ca.cert
 
   # Generate the roles
