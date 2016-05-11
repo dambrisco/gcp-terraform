@@ -8,7 +8,7 @@ resource "template_file" "etcd-units" {
 
 module "etcd-coreos-user-data" {
   source                            = "git::https://github.com/brandfolder/terraform-coreos-user-data.git?ref=master"
-  etcd2_discovery                   = "${var.etcd_discovery_url}"
+  etcd2_discovery                   = "${var.etcd_discovery_url}"                                                     // Implement custom provider for etcd discovery url
   etcd2_advertise-client-urls       = "http://var!private_ipv4:2379,http://var!private_ipv4:4001"
   etcd2_initial-advertise-peer-urls = "http://var!private_ipv4:2380,http://var!private_ipv4:7001"
   etcd2_listen-client-urls          = "http://0.0.0.0:2379,http://0.0.0.0:4001"
@@ -28,9 +28,15 @@ resource "google_compute_disk" "etcd" {
   count = "${var.etcd-count}"
   name  = "${replace("${var.prefix}-etcd-${count.index}", "/^-/", "")}"
   zone  = "${element(split(",", var.zones), count.index % length(split(",", var.zones)))}"
-  image = "${var.etcd-image}"
+  image = "${coalesce(var.etcd-image, vars.default-image)}"
   type  = "pd-ssd"
   size  = 100
+
+  lifecycle {
+    # Ignore images changes so that we dont ever delete the disk when updating
+    # to a later version of CoreOS
+    ignore_changes = ["image"]
+  }
 }
 
 resource "google_compute_address" "etcd" {
@@ -43,7 +49,7 @@ resource "google_compute_instance" "etcd" {
   count        = "${var.etcd-count}"
   name         = "${replace("${var.prefix}-etcd-${count.index}", "/^-/", "")}"
   description  = "Etcd master"
-  machine_type = "${var.etcd-instance-type}"
+  machine_type = "${coalesce(var.etcd-instance-type, vars.default-instance-type)}"
   zone         = "${element(split(",", var.zones), count.index % length(split(",", var.zones)))}"
 
   tags = ["etcd"]

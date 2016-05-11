@@ -1,0 +1,17 @@
+- path: /etc/kubernetes/cni/net.d/10-calico.conf
+  content: |
+    {
+      "name": "calico",
+      "type": "flannel",
+      "delegate": {
+        "type": "calico",
+        "etcd_endpoints": "http://var!private_ipv4:2379",
+        "log_level": "none",
+        "log_level_stderr": "info",
+        "hostname": "var!private_ipv4",
+        "policy": {
+            "type": "k8s",
+            "k8s_api_root": "http://var!private_ipv4:8080/api/v1/"
+        }
+      }
+    }
