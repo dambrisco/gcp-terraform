@@ -2,8 +2,9 @@
 source /etc/environment
 
 # Authorize and unseal
+VAULT_ADDR=http://localhost:8200
 vault auth
-vault unseal
+until vault status &> /dev/null ; do vault unseal ; done
 
 mkdir --parents ./certs
 
