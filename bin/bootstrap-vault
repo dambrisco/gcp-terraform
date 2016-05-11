@@ -10,7 +10,7 @@ until vault status &> /dev/null ; do vault unseal ; done
 mkdir --parents ./certs
 
 function cmd() {
-  echo "\e[0;93;49m$@\e[0m"
+  echo -e "\e[0;93;49m$@\e[0m"
   $@
 }
 
