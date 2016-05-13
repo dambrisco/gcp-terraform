@@ -8,7 +8,7 @@ resource "template_file" "k8s-worker-units" {
 
 module "k8s-worker-coreos-user-data" {
   source                          = "git::https://github.com/brandfolder/terraform-coreos-user-data.git?ref=master"
-  etcd2_discovery                 = "${var.etcd_discovery_url}"
+  etcd2_initial-cluster           = "${join(",", concat(formatlist("%s=https://%s:%s/", google_compute_address.etcd.*.name, google_compute_address.etcd.*.address, "2380"), formatlist("https://%s:%s/", google_compute_address.etcd.*.name, google_compute_address.etcd.*.address, "7001")))}"
   etcd2_listen-client-urls        = "http://0.0.0.0:2379,http://0.0.0.0:4001"
   etcd2_proxy                     = "on"
   flannel_interface               = "var!private_ipv4"
