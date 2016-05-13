@@ -1,4 +1,4 @@
-variable "master-count" {
+variable "master-count-per-zone" {
   default = 1
 }
 

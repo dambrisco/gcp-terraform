@@ -21,20 +21,29 @@ module "k8s-master-coreos-user-data" {
   units                           = "${template_file.k8s-master-units.rendered}"
 }
 
-resource "google_compute_instance" "k8s-master" {
-  count       = "${var.master-count}"
-  name        = "${replace("${var.prefix}-k8s-master-${count.index}", "/^-/", "")}"
+resource "google_compute_instance_group_manager" "k8s-master" {
+  count       = "${length(split(",", var.zones))}"
+  name        = "k8s-master"
+  description = "Kubernetes masters"
+
+  base_instance_name = "k8s-master"
+  instance_template  = "${google_compute_instance_template.k8s-master.self_link}"
+  update_strategy    = "NONE"
+  zone               = "${element(split(",", var.zones), count.index % length(split(",", var.zones)))}"
+
+  target_size = "${var.master-count-per-zone}"
+}
+
+resource "google_compute_instance_template" "k8s-master" {
+  name_prefix = "k8s-master"
   description = "Kubernetes master"
-  zone        = "${element(split(",", var.zones), count.index % length(split(",", var.zones)))}"
 
   tags = ["kubernetes", "master", "web"]
 
-  machine_type = "${coalesce(var.master-instance-type, var.default-instance-type)}"
-
-  scheduling {
-    automatic_restart   = true
-    on_host_maintenance = "MIGRATE"
-  }
+  instance_description = "Kubernetes master"
+  machine_type         = "${coalesce(var.master-instance-type, var.default-instance-type)}"
+  automatic_restart    = true
+  on_host_maintenance  = "MIGRATE"
 
   disk {
     type        = "pd-ssd"
@@ -49,6 +58,11 @@ resource "google_compute_instance" "k8s-master" {
     access_config {
       // Ephemeral IP
     }
+  }
+
+  scheduling {
+    automatic_restart   = true
+    on_host_maintenance = "MIGRATE"
   }
 
   metadata {

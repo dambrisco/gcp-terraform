@@ -21,20 +21,29 @@ module "k8s-worker-coreos-user-data" {
   units                           = "${template_file.k8s-worker-units.rendered}"
 }
 
-resource "google_compute_instance" "k8s-worker" {
-  count       = "${var.worker-count}"
-  name        = "${replace("${var.prefix}-k8s-worker-${count.index}", "/^-/", "")}"
+resource "google_compute_instance_group_manager" "k8s-worker" {
+  count       = "${length(split(",", var.zones))}"
+  name        = "k8s-worker"
+  description = "Kubernetes workers"
+
+  base_instance_name = "k8s-worker"
+  instance_template  = "${google_compute_instance_template.k8s-worker.self_link}"
+  update_strategy    = "NONE"
+  zone               = "${element(split(",", var.zones), count.index % length(split(",", var.zones)))}"
+
+  target_size = "${var.worker-count-per-zone}"
+}
+
+resource "google_compute_instance_template" "k8s-worker" {
+  name_prefix = "k8s-worker"
   description = "Kubernetes worker"
-  zone        = "${element(split(",", var.zones), count.index % length(split(",", var.zones)))}"
 
   tags = ["kubernetes", "worker", "web"]
 
-  machine_type = "${coalesce(var.worker-instance-type, var.default-instance-type)}"
-
-  scheduling {
-    automatic_restart   = true
-    on_host_maintenance = "MIGRATE"
-  }
+  instance_description = "Kubernetes worker"
+  machine_type         = "${coalesce(var.worker-instance-type, var.default-instance-type)}"
+  automatic_restart    = true
+  on_host_maintenance  = "MIGRATE"
 
   disk {
     type        = "pd-ssd"
@@ -49,6 +58,11 @@ resource "google_compute_instance" "k8s-worker" {
     access_config {
       // Ephemeral IP
     }
+  }
+
+  scheduling {
+    automatic_restart   = true
+    on_host_maintenance = "MIGRATE"
   }
 
   metadata {

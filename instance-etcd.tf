@@ -81,6 +81,6 @@ resource "google_compute_instance" "etcd" {
   }
 
   lifecycle {
-    prevent_destroy = "${var.etcd-prevent-destroy}"
+    prevent_destroy = true
   }
 }

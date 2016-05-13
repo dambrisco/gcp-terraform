@@ -1,4 +1,4 @@
-variable "worker-count" {
+variable "worker-count-per-zone" {
   default = 1
 }
 
