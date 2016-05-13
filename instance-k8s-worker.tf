@@ -42,8 +42,6 @@ resource "google_compute_instance_template" "k8s-worker" {
 
   instance_description = "Kubernetes worker"
   machine_type         = "${coalesce(var.worker-instance-type, var.default-instance-type)}"
-  automatic_restart    = true
-  on_host_maintenance  = "MIGRATE"
 
   disk {
     type         = "pd-ssd"
@@ -71,5 +69,9 @@ resource "google_compute_instance_template" "k8s-worker" {
 
   service_account {
     scopes = ["userinfo-email", "compute-ro", "storage-ro"]
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }

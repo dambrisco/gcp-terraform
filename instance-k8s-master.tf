@@ -42,8 +42,6 @@ resource "google_compute_instance_template" "k8s-master" {
 
   instance_description = "Kubernetes master"
   machine_type         = "${coalesce(var.master-instance-type, var.default-instance-type)}"
-  automatic_restart    = true
-  on_host_maintenance  = "MIGRATE"
 
   disk {
     type        = "pd-ssd"
@@ -72,7 +70,7 @@ resource "google_compute_instance_template" "k8s-master" {
   service_account {
     scopes = ["userinfo-email", "compute-ro", "storage-ro"]
   }
-  
+
   lifecycle {
     create_before_destroy = true
   }
