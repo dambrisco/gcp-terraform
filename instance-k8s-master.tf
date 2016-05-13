@@ -48,8 +48,8 @@ resource "google_compute_instance_template" "k8s-master" {
   disk {
     type        = "pd-ssd"
     auto_delete = true
-    size        = 100
-    image       = "${coalesce(var.master-image, var.default-image)}"
+    disk_size_gb        = 100
+    source_image       = "${coalesce(var.master-image, var.default-image)}"
   }
 
   network_interface {
@@ -71,5 +71,9 @@ resource "google_compute_instance_template" "k8s-master" {
 
   service_account {
     scopes = ["userinfo-email", "compute-ro", "storage-ro"]
+  }
+  
+  lifecycle {
+    create_before_destroy = true
   }
 }

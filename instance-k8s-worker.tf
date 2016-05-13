@@ -46,10 +46,10 @@ resource "google_compute_instance_template" "k8s-worker" {
   on_host_maintenance  = "MIGRATE"
 
   disk {
-    type        = "pd-ssd"
-    auto_delete = true
-    size        = 100
-    image       = "${coalesce(var.worker-image, var.default-image)}"
+    type         = "pd-ssd"
+    auto_delete  = true
+    disk_size_gb = 100
+    source_image = "${coalesce(var.worker-image, var.default-image)}"
   }
 
   network_interface {
