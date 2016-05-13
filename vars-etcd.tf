@@ -9,3 +9,7 @@ variable "etcd-image" {
 variable "etcd-instance-type" {
   default = ""
 }
+
+variable "etcd-prevent-destroy" {
+  default = true
+}

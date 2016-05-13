@@ -79,4 +79,8 @@ resource "google_compute_instance" "etcd" {
   service_account {
     scopes = ["userinfo-email", "compute-ro", "storage-ro"]
   }
+
+  lifecycle {
+    prevent_destroy = "${var.etcd-prevent-destroy}"
+  }
 }
