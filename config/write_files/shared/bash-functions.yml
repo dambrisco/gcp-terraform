@@ -10,7 +10,7 @@
     function wflm() { watch -n1 "if [ -z \"$1\" ] ; then fleetctl list-machines ; else fleetctl list-machines | grep \"$1\" ; fi" ; }
     function wflu() { watch -n1 "if [ -z \"$1\" ] ; then fleetctl list-units ; else fleetctl list-units | grep \"$1\" ; fi" ; }
     function elr() { if [ -z "$1" ] ; then etcdctl ls --recursive ; else etcdctl ls --recursive | grep "$1" ; fi }
-    function ?() {
+    function shortcuts() {
       echo "nse    :: Exec into a docker container"
       echo "fluf   :: List fleet unit files, if an argument is passed, the result will be greped"
       echo "flm    :: List fleet machines, if an argument is passed, the result will be greped"
@@ -25,7 +25,7 @@
       echo "ed     :: etcdctl"
       echo "syc    :: systemctl"
       echo "lk     :: locksmithctl"
-      echo "?      :: This help command"
+      echo "shortcuts      :: This help command"
     }
     #-
     # Aliases
@@ -35,4 +35,4 @@
     alias syc='systemctl'
     alias lk='locksmithctl'
 
-    echo "shortcuts loaded type (? + Enter) for a list of shortcuts."
+    echo 'use the `shortcuts` command to get a list of shortcuts.'

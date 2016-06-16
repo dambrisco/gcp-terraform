@@ -3,7 +3,9 @@
   content: |
     #!/bin/bash
     if [[ $EUID -ne 0 ]]; then
-       echo "Enter super user to run system commands. `sudo su -l`\!"
+       echo 'Enter super user to run system commands.
+       echo ''
+       echo '  $ sudo su -l`'
      else
        echo "You are a super user!"
     fi
