@@ -11,21 +11,21 @@
     function wflu() { watch -n1 "if [ -z \"$1\" ] ; then fleetctl list-units ; else fleetctl list-units | grep \"$1\" ; fi" ; }
     function elr() { if [ -z "$1" ] ; then etcdctl ls --recursive ; else etcdctl ls --recursive | grep "$1" ; fi }
     function shortcuts() {
-      echo "nse    :: Exec into a docker container"
-      echo "fluf   :: List fleet unit files, if an argument is passed, the result will be greped"
-      echo "flm    :: List fleet machines, if an argument is passed, the result will be greped"
-      echo "flu    :: List fleet units, if an argument is passed, the result will be greped"
-      echo "nse    :: Exec into a docker container"
-      echo "wfluf  :: Watch List fleet unit files, if an argument is passed, the result will be greped"
-      echo "wflm   :: Watch List fleet machines, if an argument is passed, the result will be greped"
-      echo "wflu   :: Watch List fleet units, if an argument is passed, the result will be greped"
-      echo "elr    :: List all etcd entries, if an argument is passed, the result will be greped"
-      echo "jc     :: journalctl"
-      echo "fl     :: fleetctl"
-      echo "ed     :: etcdctl"
-      echo "syc    :: systemctl"
-      echo "lk     :: locksmithctl"
-      echo "shortcuts      :: This help command"
+      echo "nse        :: Exec into a docker container"
+      echo "fluf       :: List fleet unit files, if an argument is passed, the result will be greped"
+      echo "flm        :: List fleet machines, if an argument is passed, the result will be greped"
+      echo "flu        :: List fleet units, if an argument is passed, the result will be greped"
+      echo "nse        :: Exec into a docker container"
+      echo "wfluf      :: Watch List fleet unit files, if an argument is passed, the result will be greped"
+      echo "wflm       :: Watch List fleet machines, if an argument is passed, the result will be greped"
+      echo "wflu       :: Watch List fleet units, if an argument is passed, the result will be greped"
+      echo "elr        :: List all etcd entries, if an argument is passed, the result will be greped"
+      echo "jc         :: journalctl"
+      echo "fl         :: fleetctl"
+      echo "ed         :: etcdctl"
+      echo "syc        :: systemctl"
+      echo "lk         :: locksmithctl"
+      echo "shortcuts  :: This help command"
     }
     #-
     # Aliases
