@@ -3,12 +3,13 @@
   content: |
     # Functions
     function nse() { docker exec -it "$1" bash ; }
-    function fluf() { if [ -z "$1" ] ; then fleetctl list-unit-files ; else fleetctl list-unit-files | grep "$1" ; fi }
-    function flm() { if [ -z "$1" ] ; then fleetctl list-machines ; else fleetctl list-machines | grep "$1" ; fi }
-    function flu() { if [ -z "$1" ] ; then fleetctl list-units ; else fleetctl list-units | grep "$1" ; fi }
-    function wflm() { watch -n1 "if [ -z \"$1\" ] ; then fleetctl list-machines ; else fleetctl list-machines | grep \"$1\" ; fi" ; }
-    function wflu() { watch -n1 "if [ -z \"$1\" ] ; then fleetctl list-units ; else fleetctl list-units | grep \"$1\" ; fi" ; }
-    function elr() { if [ -z "$1" ] ; then etcdctl ls --recursive ; else etcdctl ls --recursive | grep "$1" ; fi }
+    function fluf() { if [ -z "$1" ] ; then sudo fleetctl list-unit-files ; else sudo fleetctl list-unit-files | grep "$1" ; fi }
+    function flm() { if [ -z "$1" ] ; then sudo fleetctl list-machines ; else sudo fleetctl list-machines | grep "$1" ; fi }
+    function flu() { if [ -z "$1" ] ; then sudo fleetctl list-units ; else sudo fleetctl list-units | grep "$1" ; fi }
+    function wfluf() { watch -n1 fluf $@ ; }
+    function wflm() { watch -n1 flm $@ ; }
+    function wflm() { watch -n1 flu $@ ; }
+    function elr() { if [ -z "$1" ] ; then sudo etcdctl ls --recursive ; else sudo etcdctl ls --recursive | grep "$1" ; fi }
     #-
     # Aliases
     alias jc='sudo journalctl'
