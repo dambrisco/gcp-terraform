@@ -16,7 +16,7 @@
     Environment=FELIX_FELIXHOSTNAME=${COREOS_PRIVATE_IPV4}
     Environment=CALICO_NETWORKING=false
     Environment=NO_DEFAULT_POOLS=true
-    Environment=ETCD_ENDPOINTS=127.0.0.1:2379
+    Environment=ETCD_ENDPOINTS=http://127.0.0.1:2379
     ExecStart=/usr/bin/rkt run --inherit-env --stage1-from-dir=stage1-fly.aci \
       --volume=modules,kind=host,source=/lib/modules,readOnly=false \
       --mount=volume=modules,target=/lib/modules \
