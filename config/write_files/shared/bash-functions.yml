@@ -20,7 +20,7 @@
       echo "wflm   :: Watch List fleet machines, if an argument is passed, the result will be greped"
       echo "wflu   :: Watch List fleet units, if an argument is passed, the result will be greped"
       echo "elr    :: List all etcd entries, if an argument is passed, the result will be greped"
-      echo "jc     :: journalctl
+      echo "jc     :: journalctl"
       echo "fl     :: fleetctl"
       echo "ed     :: etcdctl"
       echo "syc    :: systemctl"
