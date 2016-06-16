@@ -11,9 +11,9 @@
     Slice=machine.slice
     EnvironmentFile=/etc/environment
     Environment=CALICO_DISABLE_FILE_LOGGING=true
-    Environment=HOSTNAME=${COREOS_PRIVATE_IPV4}
-    Environment=IP=${COREOS_PRIVATE_IPV4}
-    Environment=FELIX_FELIXHOSTNAME=${COREOS_PRIVATE_IPV4}
+    Environment=HOSTNAME=$COREOS_PRIVATE_IPV4
+    Environment=IP=$COREOS_PRIVATE_IPV4
+    Environment=FELIX_FELIXHOSTNAME=$COREOS_PRIVATE_IPV4
     Environment=CALICO_NETWORKING=false
     Environment=NO_DEFAULT_POOLS=true
     Environment=ETCD_ENDPOINTS=http://127.0.0.1:2379
