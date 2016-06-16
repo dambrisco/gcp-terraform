@@ -1,0 +1,9 @@
+- path: /etc/profile.d/check-superuser.sh
+  permissions: '0755'
+  content: |
+    #!/bin/bash
+    if [[ $EUID -ne 0 ]]; then
+       echo "Enter super user to run system commands. `sudo su -l`\!"
+     else
+       echo "You are a super user!"
+    fi
