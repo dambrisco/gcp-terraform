@@ -2,7 +2,7 @@
   permissions: '0755'
   content: |
     # Functions
-    function nse() { docker exec -it "$1" bash ; }
+    function nse() { sudo docker exec -it "$1" bash ; }
     function fluf() { if [ -z "$1" ] ; then sudo fleetctl list-unit-files ; else sudo fleetctl list-unit-files | grep "$1" ; fi }
     function flm() { if [ -z "$1" ] ; then sudo fleetctl list-machines ; else sudo fleetctl list-machines | grep "$1" ; fi }
     function flu() { if [ -z "$1" ] ; then sudo fleetctl list-units ; else sudo fleetctl list-units | grep "$1" ; fi }
@@ -13,6 +13,6 @@
     #-
     # Aliases
     alias jc='sudo journalctl'
-    alias fl='fleetctl'
-    alias ed='etcdctl'
+    alias fl='sudo fleetctl'
+    alias ed='sudo etcdctl'
     alias syc='sudo systemctl'
