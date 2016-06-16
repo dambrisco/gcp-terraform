@@ -24,6 +24,7 @@
     KillMode=mixed
     Restart=always
     TimeoutStartSec=0
+    RestartSec=5
 
     [Install]
     WantedBy=multi-user.target
