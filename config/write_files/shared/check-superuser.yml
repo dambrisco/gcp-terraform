@@ -6,6 +6,9 @@
        echo 'Enter super user to run system commands.'
        echo ''
        echo '  $ sudo su -l'
+       echo ''
      else
-       echo 'You are a super user!'
+       echo ''
+       echo 'You are a super user, and can now run system commands.'
+       echo ''
     fi
