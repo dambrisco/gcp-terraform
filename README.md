@@ -1,7 +1,7 @@
 # GCP Terraform
 Brandfolder's Infrastructure running on Google Cloud Platform.
 
-## STEP 1: Booting the machines in the cluster.
+## STEP 0: Custom Configuration (Optional).
 
 1.  Copy `example.tfvars` to `terraform.tfvars` and populate it with the desired
     values.
@@ -11,7 +11,9 @@ Brandfolder's Infrastructure running on Google Cloud Platform.
     $EDITOR terraform.tfvars
     ```
 
-2.  Plan terraform and inspect the changes.
+## STEP 1: Booting the machines in the cluster.
+
+1.  Plan terraform and inspect the changes.
     > Note: If you use atlas skip this step and see the 'Atlas setup' section
       below.
 
@@ -19,7 +21,7 @@ Brandfolder's Infrastructure running on Google Cloud Platform.
     terraform plan
     ```
 
-3.  If everything looks good, apply it.
+1.  If everything looks good, apply it.
     > Note: If you use atlas skip this step and see the 'Atlas setup' section
       below.
 
@@ -27,13 +29,13 @@ Brandfolder's Infrastructure running on Google Cloud Platform.
     terraform apply
     ```
 
-4.  SSH into your bastion host. (If you specified a prefix, replace `bastion` with `{prefix}bastion`.)
+1.  SSH into your bastion host. (If you specified a prefix, replace `bastion` with `{prefix}bastion`.)
 
     ```sh
     gcloud compute ssh bastion
     ```
 
-5.  You should be able to list the machines in the cluster. If so then you are ready for the next step.
+1.  You should be able to list the machines in the cluster. If so then you are ready for the next step.
 
     ```sh
     sudo fleetctl list-machines
@@ -48,7 +50,7 @@ Brandfolder's Infrastructure running on Google Cloud Platform.
     fleetctl list-units | grep vault
     ```
 
-2.  You should now be able to initialize vault. Copy the output to a secure
+1.  You should now be able to initialize vault. Copy the output to a secure
     location. This contains the information necessary to unseal the vault.
     > Note: The most secure location is a ***physical safe*** or a
       ***safety deposit box***.
@@ -57,7 +59,7 @@ Brandfolder's Infrastructure running on Google Cloud Platform.
     vault init
     ```
 
-3.  You now need to unseal vault. Follow the prompts, you will need 3 of the
+1.  You now need to unseal vault. Follow the prompts, you will need 3 of the
     keys from #2 in this step.
 
     > Note: You will always need at least 1 vault server to be unsealed at all
@@ -68,7 +70,7 @@ Brandfolder's Infrastructure running on Google Cloud Platform.
     vault unseal
     ```
 
-4.  Now that vault is set up we can generate the certificates. Follow the
+1.  Now that vault is set up we can generate the certificates. Follow the
     prompts. You will need the root token from #2 in this step.
 
     ```sh
