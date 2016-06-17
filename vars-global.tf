@@ -15,7 +15,7 @@ variable "default-instance-type" {
 }
 
 variable "default-image" {
-  default = "coreos-stable-899-17-0-v20160504"
+  default = "coreos-stable-1010-5-0-v20160527"
 }
 
 variable "whitelisted-ips" {
