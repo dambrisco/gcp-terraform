@@ -4,14 +4,17 @@ Brandfolder's Infrastructure running on Google Cloud Platform.
 ## STEP 1: Booting the machines in the cluster.
 
 1.  Copy `example.tfvars` to `terraform.tfvars` and populate it with the desired
-    values.  
+    values.
+
     ```sh
     cp example.tfvars terraform.tfvars
     $EDITOR terraform.tfvars
     ```
+
 2.  Plan terraform and inspect the changes.
     > Note: If you use atlas skip this step and see the 'Atlas setup' section
       below.
+
     ```sh
     terraform plan
     ```
@@ -19,16 +22,19 @@ Brandfolder's Infrastructure running on Google Cloud Platform.
 3.  If everything looks good, apply it.
     > Note: If you use atlas skip this step and see the 'Atlas setup' section
       below.
+
     ```sh
     terraform apply
     ```
 
 4.  SSH into your bastion host. (If you specified a prefix, replace `bastion` with `{prefix}bastion`.)
+
     ```sh
     gcloud compute ssh bastion
     ```
 
 5.  You should be able to list the machines in the cluster. If so then you are ready for the next step.
+
     ```sh
     sudo fleetctl list-machines
     ```
@@ -37,6 +43,7 @@ Brandfolder's Infrastructure running on Google Cloud Platform.
 
 1.  The vault servers should be loaded on every machine in the cluster, to
     confirm run the following while ssh'd into the bastion host:
+
     ```sh
     fleetctl list-units | grep vault
     ```
